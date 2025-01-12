@@ -1,0 +1,5 @@
+# Racket
+compiled
+/**/*.bak
+/**/*.1
+/**/*.2
