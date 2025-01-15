@@ -29,4 +29,31 @@
           (loop (cdr directions) santa-x santa-y
                 (insert-or-inc `((,santa-x . ,santa-y) . 1) visited-list))))))
 
-(santas-walk directions-with-too-much-eggnog)
+(santas-walk directions-with-too-much-eggnog) ; 2592
+
+; https://adventofcode.com/2015/day/3#part2
+(define (santas-walk-with-robosanta directions-with-too-much-eggnog)
+  (let loop ((directions directions-with-too-much-eggnog)
+             (santa? #t)
+             (santa-x 0) (santa-y 0)
+             (robo-x 0) (robo-y 0)
+             (visited-list '(((0 . 0) . 1)))) ;'((x . y) . amount-of-visits)
+    (if (null? directions)
+        (length visited-list)
+        (let* ((deliverer-x (if santa? santa-x robo-x))
+               (deliverer-y (if santa? santa-y robo-y))
+               (x (cond ((eq? (car directions) #\>) (+ deliverer-x 1))
+                        ((eq? (car directions) #\<) (- deliverer-x 1))
+                        (else deliverer-x)))
+               (y (cond ((eq? (car directions) #\^) (+ deliverer-y 1))
+                        ((eq? (car directions) #\v) (- deliverer-y 1))
+                        (else deliverer-y))))
+          (loop (cdr directions)
+                (not santa?)
+                (if santa? x santa-x)
+                (if santa? y santa-y)
+                (if santa? robo-x x)
+                (if santa? robo-y y)
+                (insert-or-inc `((,x . ,y) . 1) visited-list))))))
+
+(santas-walk-with-robosanta directions-with-too-much-eggnog) ; 2360
