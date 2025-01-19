@@ -1,3 +1,6 @@
+# Puzzle inputs
+/**/*.data.txt
+
 # Racket
 compiled
 /**/*.bak
